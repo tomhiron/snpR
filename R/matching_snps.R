@@ -80,7 +80,7 @@ matching_SNPs <- function(snpdatabase = NULL, nperm = 1000, ld.snps) {
   # generate an index - the number of dataframes will be the number of 
   # permutations
   index <- as.character(seq_len(nperm))
-  bigdata[, `:=`(rowid, index)]
+  bigdata[, `:=`(rowid, rep(index, nrow(bigdata)/nperm))]
   # set a key based on the row index
   data.table::setkey(bigdata, rowid)
   # split on this
