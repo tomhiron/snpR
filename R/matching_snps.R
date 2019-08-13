@@ -57,10 +57,18 @@ matching_SNPs <- function(snpdatabase = NULL, nperm = 1000, ld.snps) {
     for (j in seq_len(nrow(x))) {
       gc <- as.numeric(x[j, gene_count])
       ld <- as.numeric(x[j, friends_ld08])
-      s1 <- collection[[i]][as.numeric(gene_count) < 1.3*gc & 
+      if (gc > 0) {
+        s1 <- collection[[i]][as.numeric(gene_count) < 1.3*gc & 
                               as.numeric(gene_count) > 0.7*gc]
-      s2 <- s1[as.numeric(friends_ld08) < 1.3*ld & 
+      } else {
+        s1 <- collection[[i]][as.numeric(gene_count) == 0]
+      }
+      if (ld > 0) {
+        s2 <- s1[as.numeric(friends_ld08) < 1.3*ld & 
                  as.numeric(friends_ld08) > 0.7*ld]
+      } else {
+        s2 <- s1[as.numeric(friends_ld08) == 0]
+      }
       y[[j]] <- s2[sample(nrow(s2), nperm, replace = T), ]
     }
     matched[[i]] <- y
