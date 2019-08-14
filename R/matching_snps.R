@@ -114,6 +114,7 @@ matching_SNPs <- function(snpdatabase = NULL, nperm = 1000, ld.snps) {
   
   matched.list.GR <- lapply(matched.list, function(x) {
     a <- as.data.frame(x)
+    a$chr <- gsub("chr23", "chrX", a$chr)
     GenomicRanges::makeGRangesFromDataFrame(a,  keep.extra.columns = TRUE, 
                                             seqnames.field = "chr", start.field = "start",
                                             end.field = "end")
